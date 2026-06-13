@@ -1,0 +1,247 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+      <ion-label class="header-title">News Detail</ion-label>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        *ngIf="newsDetail?.user_id == userId"
+        (click)="deleteNews()"
+        class="delete-btn"
+      >
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Delete News
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="detail-container" *ngIf="newsDetail">
+    <!-- News Image Carousel -->
+    <div class="news-image-carousel">
+      <div class="carousel-container">
+        <div class="image-container">
+          <img
+            [src]="currentImage"
+            [alt]="newsDetail.judul"
+            class="main-image"
+          />
+        </div>
+
+        <!-- Image Thumbnails -->
+        <div class="thumbnails" *ngIf="allImages.length > 1">
+          <div
+            *ngFor="let image of allImages; let i = index"
+            class="thumbnail-item"
+            [class.active]="i === currentImageIndex"
+            (click)="changeImage(i)"
+          >
+            <img [src]="image" [alt]="'Thumbnail ' + (i + 1)" />
+          </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <div class="navigation-arrows" *ngIf="allImages.length > 1">
+          <ion-button
+            fill="clear"
+            class="nav-arrow prev"
+            (click)="previousImage()"
+            [disabled]="currentImageIndex === 0"
+          >
+            <ion-icon name="chevron-back"></ion-icon>
+          </ion-button>
+          <ion-button
+            fill="clear"
+            class="nav-arrow next"
+            (click)="nextImage()"
+            [disabled]="currentImageIndex === allImages.length - 1"
+          >
+            <ion-icon name="chevron-forward"></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Image Counter -->
+        <div class="image-counter" *ngIf="allImages.length > 1">
+          {{ currentImageIndex + 1 }} / {{ allImages.length }}
+        </div>
+      </div>
+    </div>
+
+    <!-- News Content -->
+    <div class="news-content">
+      <h1 class="news-title">{{ newsDetail.judul }}</h1>
+      <h5 class="image-caption">
+        {{ newsDetail.author_name || newsDetail.username }} | {{
+        newsDetail.created_at }}
+      </h5>
+
+      <!-- Views Info -->
+      <div class="views-info">
+        <ion-icon name="eye-outline"></ion-icon>
+        <span>{{ newsDetail.view_count || 0 }}x dilihat</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="news-body">
+        <p>{{ newsDetail.deskripsi }}</p>
+      </div>
+
+      <!-- Categories -->
+      <div
+        class="categories"
+        *ngIf="newsDetail.categories && newsDetail.categories.length > 0"
+      >
+        <ion-chip *ngFor="let category of newsDetail.categories">
+          <ion-label>{{ category.nama_kategori }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <!-- Favorite Button -->
+      <ion-button
+        expand="block"
+        (click)="toggleFavorite()"
+        [color]="isFavorite ? 'danger' : 'primary'"
+      >
+        <ion-icon [name]="isFavorite ? 'heart' : 'heart-outline'" slot="start">
+        </ion-icon>
+        {{ isFavorite ? 'Hapus dari Favorite' : 'Tambahkan ke Favorite' }}
+      </ion-button>
+
+      <!-- Rating Info -->
+      <div class="news-meta">
+        <div class="meta-item">
+          <ion-icon name="star" color="warning"></ion-icon>
+          <span *ngIf="newsDetail.avg_rating && newsDetail.avg_rating > 0"
+            >Rating: {{ newsDetail.avg_rating | number:'1.1-1' }}/5</span
+          >
+          <span
+            *ngIf="!newsDetail.avg_rating || newsDetail.avg_rating == 0"
+            style="color: #999; font-style: italic"
+            >Belum ada rating</span
+          >
+        </div>
+      </div>
+
+      <!-- Rating Form -->
+      <ion-item lines="none">
+        <ion-label position="stacked">Beri Rating (1 - 5)</ion-label>
+        <ion-input
+          type="number"
+          min="1"
+          max="5"
+          [(ngModel)]="userRating"
+          placeholder="Masukkan angka 1 s/d 5"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="kirimRating()"
+        >Kirim Rating</ion-button
+      >
+
+      <div class="divider"></div>
+
+      <!-- No Comments Message -->
+      <div
+        *ngIf="!comments || comments.length === 0"
+        style="
+          padding: 20px;
+          text-align: center;
+          color: #999;
+          font-style: italic;
+        "
+      >
+        <ion-icon name="chatbubbles-outline" style="font-size: 48px"></ion-icon>
+        <p>Belum ada komentar</p>
+      </div>
+
+      <!-- Comments List -->
+      <ion-list *ngIf="comments && comments.length > 0">
+        <ion-list-header>
+          <ion-label>Komentar ({{ totalKomentar() }})</ion-label>
+        </ion-list-header>
+
+        <div *ngFor="let c of comments; let i = index">
+          <!-- Komentar Utama -->
+          <ion-item class="comment-item">
+            <ion-label>
+              <h2>
+                {{ c.username }}
+                <span style="font-size: 12px; color: #999"
+                  >• {{ c.created_at }}</span
+                >
+              </h2>
+              <p>{{ c.comment_text }}</p>
+            </ion-label>
+
+            <!-- Tombol hapus komentar -->
+            <ion-buttons slot="end" *ngIf="c.user_id === userId">
+              <ion-button
+                fill="clear"
+                color="danger"
+                (click)="hapusKomentar(c.id)"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+
+          <!-- Daftar balasan (reply) -->
+          <div *ngFor="let r of c.replies; let j = index" class="reply-item">
+            <ion-label>
+              <h3>
+                {{ r.username }}
+                <span style="font-size: 12px; color: #999"
+                  >• {{ r.created_at }}</span
+                >
+              </h3>
+              <p>{{ r.comment_text }}</p>
+            </ion-label>
+
+            <ion-buttons slot="end" *ngIf="r.user_id === userId">
+              <ion-button
+                fill="clear"
+                color="danger"
+                (click)="hapusReply(r.id)"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </div>
+
+          <!-- Input balasan -->
+          <div class="reply-input">
+            <ion-input
+              placeholder="Balas komentar..."
+              [(ngModel)]="replyTexts[i]"
+            ></ion-input>
+            <ion-button size="small" (click)="balasKomentar(c.id, i)"
+              >Kirim</ion-button
+            >
+          </div>
+        </div>
+      </ion-list>
+
+      <!-- Comment Form -->
+      <ion-item lines="full">
+        <ion-label position="stacked">Tulis Komentar</ion-label>
+        <ion-textarea
+          autoGrow="true"
+          [(ngModel)]="newComment"
+          placeholder="Ketik komentar Anda..."
+        >
+        </ion-textarea>
+      </ion-item>
+      <ion-button expand="block" (click)="kirimKomentar()"
+        >Kirim Komentar</ion-button
+      >
+    </div>
+  </div>
+
+  <div *ngIf="!newsDetail" class="empty-state">
+    <ion-spinner></ion-spinner>
+    <p>Memuat berita...</p>
+  </div>
+</ion-content>

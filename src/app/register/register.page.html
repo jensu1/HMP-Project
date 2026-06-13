@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="register-container">
+    <div class="register-header">
+      <ion-icon name="person-add" size="large"></ion-icon>
+      <h1>Register</h1>
+      <p>Buat akun baru Anda</p>
+    </div>
+
+    <form>
+      <ion-item>
+        <ion-label position="floating">Nama</ion-label>
+        <ion-input
+          type="text"
+          placeholder="Masukkan nama"
+          name="nama"
+          [(ngModel)]="nama"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Username</ion-label>
+        <ion-input
+          type="text"
+          placeholder="Masukkan username"
+          name="username"
+          [(ngModel)]="username"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          type="email"
+          placeholder="Masukkan email"
+          name="email"
+          [(ngModel)]="email"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input
+          type="password"
+          placeholder="Masukkan password"
+          name="password"
+          [(ngModel)]="password"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Konfirmasi Password</ion-label>
+        <ion-input
+          type="password"
+          placeholder="Konfirmasi password"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button (click)="onRegister()" expand="block" class="register-button">
+        Daftar
+      </ion-button>
+
+      <div class="login-link">
+        <p>Sudah punya akun? <a (click)="goToLogin()">Login di sini</a></p>
+      </div>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,123 @@
+/* register.page.scss */
+ion-content {
+  --background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 100%);
+  --overflow: hidden;
+}
+
+.register-container {
+  text-align: center;
+  height: 100vh;
+  padding: 20px 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 12px;
+  color: #d84d8c;
+
+  ion-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    color: #e75a9c;
+    display: inline-block;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 6px 0;
+    color: #d84d8c;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    color: #e75a9c;
+  }
+}
+
+form {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 20px;
+  box-shadow: 0 8px 32px rgba(232, 90, 156, 0.15);
+  border: 2px solid #ffc0dd;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+
+  ion-item {
+    --border-radius: 10px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-end: 12px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    --background: #fff5fa;
+    --border-color: #ffc0dd;
+    --highlight-color-focused: #e75a9c;
+    --highlight-color-valid: #e75a9c;
+    --highlight-color-invalid: #e75a9c;
+    margin-bottom: 12px;
+    border: 2px solid #ffd6e8;
+    border-radius: 12px;
+
+    ion-label {
+      font-weight: 500;
+      color: #d84d8c;
+      margin-bottom: 8px;
+    }
+
+    ion-input {
+      --color: #d84d8c;
+      --placeholder-color: #f0a3c9;
+      margin-right: 10px;
+    }
+  }
+
+  .register-button {
+    --background: linear-gradient(135deg, #f093c2 0%, #e75a9c 100%);
+    --background-hover: linear-gradient(135deg, #e75a9c 0%, #d84d8c 100%);
+    --border-radius: 10px;
+    --box-shadow: 0 4px 16px rgba(232, 90, 156, 0.3);
+    height: 42px;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 16px;
+    margin-top: 4px;
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 12px;
+
+    p {
+      font-size: 14px;
+      color: #d84d8c;
+      margin: 0;
+
+      a {
+        color: #e75a9c;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: #d84d8c;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

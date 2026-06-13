@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tambah Berita</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="onSubmit()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Form Berita Baru</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked"
+            >Judul Berita <span class="required">*</span></ion-label
+          >
+          <ion-input
+            [(ngModel)]="newsTitle"
+            name="newsTitle"
+            type="text"
+            placeholder="Masukkan judul berita"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked"
+            >Deskripsi <span class="required">*</span></ion-label
+          >
+          <ion-textarea
+            [(ngModel)]="description"
+            name="description"
+            rows="6"
+            placeholder="Masukkan deskripsi berita"
+            required
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked"
+            >Link Foto Cover Berita <span class="required">*</span></ion-label
+          >
+          <ion-input
+            [(ngModel)]="mainPhotoUrl"
+            name="mainPhotoUrl"
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <div class="thumbnail-section">
+          <div class="section-header">
+            <ion-label class="section-title"
+              >Foto Thumbnail <span class="required">*</span></ion-label
+            >
+            <ion-button
+              size="small"
+              fill="outline"
+              class="add-thumbnail-btn"
+              (click)="addThumbnail()"
+            >
+              <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+              Tambah Thumbnail
+            </ion-button>
+          </div>
+          <p class="helper-text">Minimal 3 foto thumbnail</p>
+
+          <ion-item
+            *ngFor="let thumb of thumbnailUrls; let i = index"
+            class="thumbnail-item"
+          >
+            <ion-label position="stacked">Thumbnail {{ i + 1 }}</ion-label>
+            <div class="thumbnail-input-group" [class.no-delete]="i < 3">
+              <ion-input
+                [(ngModel)]="thumb.url"
+                [name]="'thumbnailUrl_' + thumb.id"
+                type="url"
+                placeholder="https://example.com/thumb.jpg"
+                required
+              ></ion-input>
+              <ion-button
+                *ngIf="i >= 3"
+                fill="clear"
+                color="danger"
+                (click)="removeThumbnail(i)"
+                class="remove-thumb-btn"
+              >
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+        </div>
+
+        <div class="category-section">
+          <div class="section-header">
+            <ion-label class="section-title"
+              >Kategori <span class="required">*</span></ion-label
+            >
+            <ion-button
+              size="small"
+              fill="solid"
+              class="add-category-btn"
+              (click)="goToAddCategory()"
+            >
+              <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+              Tambah Kategori
+            </ion-button>
+          </div>
+          <ion-item class="category-select-item">
+            <ion-label position="stacked">Pilih Kategori</ion-label>
+            <ion-select
+              [(ngModel)]="selectedCategories"
+              name="categories"
+              multiple="true"
+              placeholder="Pilih kategori"
+              interface="alert"
+              [interfaceOptions]="{header: 'Kategori'}"
+            >
+              <ion-select-option
+                *ngFor="let cat of categories"
+                [value]="cat.id"
+              >
+                {{ cat.nama_kategori }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="!newsTitle || !description || !mainPhotoUrl || thumbnailUrls.length < 3 || !areAllThumbnailsFilled() || selectedCategories.length === 0 || isSubmitting"
+          class="submit-btn"
+        >
+          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+          {{ isSubmitting ? 'Menyimpan...' : 'Tambah Berita' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/kategori"></ion-back-button>
+    </ion-buttons>
+    <div class="title-search">
+      <span class="title">Berita {{ categoryName }}</span>
+      <ion-searchbar
+        show-clear-button="focus"
+        debounce="1000"
+        placeholder="Search"
+        (ionInput)="handleInput($event)"
+      >
+      </ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- jumlah berita -->
+  <div class="news-count-container">
+    <ion-chip class="news-chip">
+      <ion-icon name="newspaper-outline"></ion-icon>
+      <ion-label>
+        <strong>{{ filteredNews.length }}</strong> Berita
+        <span *ngIf="searchTerm"> dari {{ newsList.length }}</span>
+      </ion-label>
+    </ion-chip>
+  </div>
+
+  <ion-list>
+    <ion-item
+      *ngFor="let news of filteredNews"
+      button
+      lines="full"
+      (click)="goToDetail(news.id)"
+    >
+      <ion-thumbnail slot="start">
+        <img
+          [src]="news.foto_utama || 'https://via.placeholder.com/100'"
+          [alt]="news.judul"
+        />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ news.judul }}</h2>
+        <p>{{ news.author_name || news.username }} • {{ news.created_at }}</p>
+        <p>
+          <ion-icon name="eye-outline"></ion-icon> {{ news.view_count || 0 }}x
+          dilihat
+        </p>
+        <p>⭐ Rating: {{ rataRata(news.id) }}/5</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

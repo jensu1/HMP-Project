@@ -1,0 +1,129 @@
+/* news-category.page.scss */
+ion-content {
+  --background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 100%);
+}
+
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #f093c2 0%, #e75a9c 100%);
+    --color: white;
+
+    ion-back-button {
+      --color: white;
+    }
+  }
+}
+
+.title-search {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 12px;
+  align-items: center;
+  width: 100%;
+
+  .title {
+    white-space: nowrap;
+    font-weight: 600;
+    color: white;
+    font-size: 20px;
+  }
+
+  ion-searchbar {
+    width: 100%;
+    min-width: 0;
+    --background: rgba(255, 255, 255, 0.2);
+    --border-radius: 20px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --color: white;
+    --placeholder-color: rgba(255, 255, 255, 0.7);
+    --icon-color: white;
+    --clear-button-color: white;
+  }
+}
+
+ion-list {
+  background: transparent;
+  padding: 12px;
+
+  ion-item {
+    --background: white;
+    --border-radius: 16px;
+    --padding-start: 0;
+    --padding-end: 12px;
+    --inner-padding-end: 0;
+    --border-width: 0;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(232, 90, 156, 0.15);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 6px 24px rgba(232, 90, 156, 0.25);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+ion-thumbnail {
+  --size: 90px;
+  --border-radius: 12px;
+  margin: 12px 0 12px 10px;
+  border-radius: 12px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+ion-label {
+  margin: 12px 0;
+
+  h2 {
+    color: #d84d8c;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+    margin-left: 10px;
+  }
+
+  p {
+    color: #e75a9c;
+    font-size: 12px;
+    margin-left: 10px;
+    font-weight: 500;
+  }
+}
+
+.news-count-container {
+  display: flex;
+  margin: -10px 5px;
+  padding: 5px;
+  height: 60px;
+
+  ion-chip.news-chip {
+    --background: linear-gradient(135deg, #f093c2 0%, #e75a9c 100%);
+    --color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(232, 90, 156, 0.3);
+
+    ion-icon {
+      color: white;
+      font-size: 20px;
+      margin-right: 8px;
+    }
+
+    ion-label {
+      color: white;
+      font-weight: 500;
+
+      strong {
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+  }
+}

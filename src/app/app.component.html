@@ -1,0 +1,52 @@
+<ion-app>
+  <!-- MENU SAMPING -->
+  <ion-menu contentId="main-content" auto-hide="true">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>KeceNews</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/home" detail="false">
+            <ion-icon name="home-outline" slot="start"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/kategori" detail="false">
+            <ion-icon name="list" slot="start"></ion-icon>
+            <ion-label>Kategori</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/favorite" detail="false">
+            <ion-icon name="heart-outline" slot="start"></ion-icon>
+            <ion-label>My Favorite</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/profile" routerLinkActive="active-item">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-label>Profile</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-item button (click)="onLogOut()" lines="none" class="logout">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- ISI HALAMAN -->
+  <div class="ion-page" id="main-content">
+    <ion-router-outlet></ion-router-outlet>
+  </div>
+</ion-app>
